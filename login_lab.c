@@ -223,7 +223,7 @@ void menuAdmin() {
 int main (int argc, char *argv[]) {
     FILE  *file; // deklarasi pointer file
     char username[50], password[50], role[50]; // deklarasi variabel untuk username, password, dan role
-    int login_success = 0; // variabel untuk menandai keberhasilan login
+    bool login_success = false; // variabel untuk menandai keberhasilan login
 
     // memeriksa jumlah argumen
     if (argc != 3) {
@@ -240,19 +240,22 @@ int main (int argc, char *argv[]) {
     while (fscanf(file, "%s %s %s", username, password, role) != EOF) {
         if (strcmp(argv[1], username) == 0 && strcmp(argv[2], password) == 0) {
             printf("Login berhasil! Selamat datang, %s. Role Anda: %s\n", username, role);
-            login_success = 1; // menandai bahwa login berhasil
+            login_success = true; // menandai bahwa login berhasil
             break; // keluar dari loop setelah menemukan kecocokan
         }
     }
 
     fclose(file); // menutup file
 
-    if (login_success) {
-        printf("\nlogin sukses\n");
-        printf("Halo %s! Anda memiliki akses sebagai %s. \n", username, role);
-        //DI SINI BISA DITAMBAHKAN KODE YANG NANTINYA AKAN DIJALANKAN UNTUK AKSES BERDASARKAN ROLE
-    } else {
+    if (!login_success) { // memeriksa apakah login gagal
         printf("Login gagal! Username atau password salah.\n");
+        return EXIT_FAILURE; // mengembalikan nilai gagal
+    }
+
+    if (strcmp(role, "admin") == 0) { // memeriksa apakah role adalah admin
+        menuAdmin(); // memanggil fungsi menuAdmin
+    } else {
+        printf("Fitur untuk role selain admin belum tersedia.\n");
     }
 
     return EXIT_SUCCESS; // mengembalikan nilai sukses
