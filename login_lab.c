@@ -1,49 +1,63 @@
-#include <stdio.h>  // deklarasi library standar input output
-#include <stdlib.h> // deklarasi library standar umum
-#include <string.h> // deklarasi library string
-#include <stdbool.h> // deklarasi library boolean
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include "fungsiAdmin.h"
 
+// deklarasi fungsi menuAdmin 
+void menuAdmin();
 
 int main (int argc, char *argv[]) {
-    FILE  *file; // deklarasi pointer file
-    char username[50], password[50], role[50]; // deklarasi variabel untuk username, password, dan role
-    bool login_success = false; // variabel untuk menandai keberhasilan login
+    FILE  *file;
+    char username[50], password[50], role[50];
+    char input_user[50], input_pass[50];
+    bool login_success = false;
 
-    // memeriksa jumlah argumen
+    // cek argumen
     if (argc != 3) {
         printf("Cara penggunaan:\n./%s <username> <password>\n", argv[0]);
-        return EXIT_FAILURE; // mengembalikan nilai gagal
+        return EXIT_FAILURE;
     }
 
-    file = fopen("akun.txt", "r"); // membuka file akun.txt dalam mode baca
-    if (file == NULL) { // memeriksa apakah file berhasil dibuka
+    // copy input agar aman
+    strncpy(input_user, argv[1], 49);
+    strncpy(input_pass, argv[2], 49);
+
+    file = fopen("akun.txt", "r");
+    if (file == NULL) {
         perror("Gagal membuka file akun.txt");
-        return EXIT_FAILURE; // mengembalikan nilai gagal
+        return EXIT_FAILURE;
     }
 
-    while (fscanf(file, "%s %s %s", username, password, role) != EOF) {
-        if (strcmp(argv[1], username) == 0 && strcmp(argv[2], password) == 0) {
-            printf("Login berhasil! Selamat datang, %s. Role Anda: %s\n", username, role);
-            login_success = true; // menandai bahwa login berhasil
-            break; // keluar dari loop setelah menemukan kecocokan
+    // baca file
+    while (fscanf(file, "%49s %49s %49s", username, password, role) != EOF) {
+        if (strcmp(input_user, username) == 0 &&
+            strcmp(input_pass, password) == 0)
+        {
+            printf("Login berhasil! Selamat datang, %s. Role Anda: %s\n",
+                   username, role);
+            login_success = true;
+            break;
         }
     }
 
-    fclose(file); // menutup file
+    fclose(file);
 
-    if (!login_success) { // memeriksa apakah login gagal
+    if (!login_success) {
         printf("Login gagal! Username atau password salah.\n");
-        return EXIT_FAILURE; // mengembalikan nilai gagal
+        return EXIT_FAILURE;
     }
 
-    if (strcmp(role, "admin") == 0) { // memeriksa apakah role adalah admin
-        menuAdmin(); // memanggil fungsi menuAdmin
+    // cek role
+    if (strcmp(role, "admin") == 0) {
+        menuAdmin();
     } else {
         printf("Fitur untuk role selain admin belum tersedia.\n");
     }
 
-    return EXIT_SUCCESS; // mengembalikan nilai sukses
+    return EXIT_SUCCESS;
 }
+
 
 
     
