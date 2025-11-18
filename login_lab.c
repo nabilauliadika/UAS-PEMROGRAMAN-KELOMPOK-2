@@ -4,8 +4,6 @@
 #include <stdbool.h>
 #include "fungsiAdmin.h"
 
-// deklarasi fungsi menuAdmin 
-void menuAdmin();
 
 int main (int argc, char *argv[]) {
     FILE  *file;
@@ -41,7 +39,7 @@ int main (int argc, char *argv[]) {
         }
     }
 
-    fclose(file);
+    fclose(file); // tutup file
 
     if (!login_success) {
         printf("Login gagal! Username atau password salah.\n");
