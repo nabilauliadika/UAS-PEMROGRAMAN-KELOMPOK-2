@@ -12,68 +12,76 @@ struct AlatLab {
     unsigned int tahun;
     unsigned int jumlah_unit;
     unsigned int jumlah_tersedia;
-}
+};
 
 /*====fungsi untuk load data alat lab dari file===*/
 int loadAlat(struct AlatLab daftar[]) 
 {
     FILE *file = fopen("alat.txt", "r");
-    if (file == NULL) 
-    {
-        printf("Gagal membuka file alat.txt");
+    if (file == NULL) {
+        printf("Gagal membuka file alat.txt\n");
         return 0;
     }
 
     int count = 0;
 
-    while (fscanf(file, "%u %s %s %s %u %u %u", 
-            &daftar[count].id, 
-            daftar[count].nama, 
-            daftar[count].merk, 
-            daftar[count].model, 
-            &daftar[count].tahun, 
-            &daftar[count].jumlah_unit, 
-            &daftar[count].jumlah_tersedia) != EOF) 
-        {
-            count++;
-        }
+    while (fscanf(file, "%u %s %s %s %u %u %u",
+            &daftar[count].id,
+            daftar[count].nama,
+            daftar[count].merk,
+            daftar[count].model,
+            &daftar[count].tahun,
+            &daftar[count].jumlah_unit,
+            &daftar[count].jumlah_tersedia) != EOF)
+    {
+        count++;
+    }
 
-        fclose(file);
-        return count;
+    fclose(file);
+    return count;
 }
 
 /*====fungsi untuk menyimpan data alat lab ke file===*/
-void saveAlat(struct Alatlab daftar[], int count) 
+void saveAlat(struct AlatLab daftar[], int count) 
 {
     FILE *file = fopen("alat.txt", "w");
-    if (file == NULL) 
-    {
-        printf("Gagal membuka file alat.txt untuk menulis");
+    if (file == NULL) {
+        printf("Gagal membuka file alat.txt untuk menulis\n");
         return;
     }
 
-    for (int i = 0; i < count; i++) 
-    {
-        fprintf(file, "%u %s %s %s %u %u %u\n", 
-                daftar[i].id, 
-                daftar[i].nama, 
-                daftar[i].merk, 
-                daftar[i].model, 
-                daftar[i].tahun, 
-                daftar[i].jumlah_unit, 
+    for (int i = 0; i < count; i++) {
+        fprintf(file, "%u %s %s %s %u %u %u\n",
+                daftar[i].id,
+                daftar[i].nama,
+                daftar[i].merk,
+                daftar[i].model,
+                daftar[i].tahun,
+                daftar[i].jumlah_unit,
                 daftar[i].jumlah_tersedia);
     }
 
     fclose(file);
-
 }
 
 /*====fungsi untuk menampilkan daftar alat lab===*/
-void tampilkanAlat(struct AlatLab daftar[], int count) 
+void tampilkanAlat(struct AlatLab daftar[], int count)
 {
-    struct Alatlab baru;
+    printf("\n== DAFTAR ALAT LAB ==\n");
+    for (int i = 0; i < count; i++) {
+        printf("ID: %u | Nama: %s | Merk: %s | Model: %s | Tahun: %u | Unit: %u | Tersedia: %u\n",
+                daftar[i].id, daftar[i].nama, daftar[i].merk, daftar[i].model,
+                daftar[i].tahun, daftar[i].jumlah_unit, daftar[i].jumlah_tersedia);
+    }
+}
+
+/*====fungsi untuk menambah alat lab===*/
+void tambahAlat(struct AlatLab daftar[], int *count)
+{
+    struct AlatLab baru;
 
     printf("\n== Tambah Alat Lab ==\n");
+
     printf("ID Alat: ");
     scanf("%u", &baru.id);
 
@@ -95,7 +103,7 @@ void tampilkanAlat(struct AlatLab daftar[], int count)
     printf("Jumlah Tersedia: ");
     scanf("%u", &baru.jumlah_tersedia);
 
-    daftar[count] = baru;
+    daftar[*count] = baru;
     (*count)++;
 
     saveAlat(daftar, *count);
@@ -111,21 +119,17 @@ void editAlat(struct AlatLab daftar[], int count)
     scanf("%u", &id);
 
     int index = -1;
-
-    for (int i = 0; i < count; i++)
-    {
-        if (daftar[i].id == id)
-        {
+    for (int i = 0; i < count; i++) {
+        if (daftar[i].id == id) {
             index = i;
             break;
         }
     }
-    
-        if (index == -1)
-        {
-            printf("Alat dengan ID %u tidak ditemukan.\n", id);
-            return;
-        }
+
+    if (index == -1) {
+        printf("Alat dengan ID %u tidak ditemukan.\n", id);
+        return;
+    }
 
     printf("Mengedit alat: %s\n", daftar[index].nama);
 
@@ -160,24 +164,19 @@ void hapusAlat(struct AlatLab daftar[], int *count)
     scanf("%u", &id);
 
     int index = -1;
-
-    for (int i = 0; i < *count; i++)
-    {
-        if (daftar[i].id == id)
-        {
+    for (int i = 0; i < *count; i++) {
+        if (daftar[i].id == id) {
             index = i;
             break;
         }
     }
 
-    if (index == -1)
-    {
+    if (index == -1) {
         printf("Alat dengan ID %u tidak ditemukan.\n", id);
         return;
     }
 
-    for (int i = index; i < *count - 1; i++)
-    {
+    for (int i = index; i < *count - 1; i++) {
         daftar[i] = daftar[i + 1];
     }
 
@@ -192,11 +191,10 @@ void hapusAlat(struct AlatLab daftar[], int *count)
 void menuAdmin() {
     struct AlatLab daftar[100];
     int count = loadAlat(daftar);
-        
+
     int pilihan;
-        
-    while(true)
-    {
+
+    while (true) {
         printf("\n== MENU ADMIN ==\n");
         printf("1. Tampilkan Alat Lab\n");
         printf("2. Tambah Alat Lab\n");
@@ -206,8 +204,7 @@ void menuAdmin() {
         printf("Pilih opsi: ");
         scanf("%d", &pilihan);
 
-        switch(pilihan)
-        {
+        switch (pilihan) {
             case 1: tampilkanAlat(daftar, count); break;
             case 2: tambahAlat(daftar, &count); break;
             case 3: editAlat(daftar, count); break;
