@@ -3,12 +3,13 @@
 #include <string.h>
 #include <stdbool.h>
 
-
+/*====struct untuk data alat lab===*/
 struct Peminjaman {
 	char username[50]; 
 	unsigned int id_alat; 
 };
 
+/*====fungsi untuk load data peminjaman dari file===*/
 int loadPeminjaman(struct Peminjaman list[])
 {
 	FILE *file = fopen("peminjaman.txt", "r"); 
@@ -25,6 +26,7 @@ int loadPeminjaman(struct Peminjaman list[])
 	return count; 
 }
 
+/*====fungsi untuk menyimpan data peminjaman ke file===*/
 void savePeminjaman(struct Peminjaman list[], int count)
 {
 	FILE *file = fopen("peminjaman.txt", "w"); 
@@ -40,7 +42,7 @@ void savePeminjaman(struct Peminjaman list[], int count)
 	fclose(file);
 }
 
-
+/*====fungsi untuk menambahkan data peminjaman baru ke file===*/
 void appendPeminjaman(const char *username, unsigned int id_alat)
 {
 	FILE *file = fopen("peminjaman.txt", "a"); 
@@ -53,7 +55,7 @@ void appendPeminjaman(const char *username, unsigned int id_alat)
 	fclose(file); 
 }
 
-
+/*====fungsi untuk meminjam alat===*/
 void pinjamAlat(const char *username, struct AlatLab daftar[], int *count)
 {
 	unsigned int id; 
@@ -87,7 +89,7 @@ void pinjamAlat(const char *username, struct AlatLab daftar[], int *count)
 	printf("Peminjaman berhasil: %s meminjam alat ID %u\n", username, id);
 }
 
-
+/*====fungsi untuk menampilkan alat yang dipinjam oleh user===*/
 void tampilkanPeminjaman(const char *username)
 {
 	struct Peminjaman list[100]; 
@@ -108,7 +110,7 @@ void tampilkanPeminjaman(const char *username)
 	}
 }
 
-
+/*====fungsi untuk mengembalikan alat===*/
 void kembalikanAlat(const char *username, struct AlatLab daftar[], int *count)
 {
 	unsigned int id; 
@@ -158,7 +160,7 @@ void kembalikanAlat(const char *username, struct AlatLab daftar[], int *count)
 	printf("Pengembalian berhasil: %s mengembalikan alat ID %u\n", username, id); 
 }
 
-
+/*====fungsi untuk menampilkan menu user===*/
 void menuUser(const char *username)
 {
 	struct AlatLab daftar[100]; 
