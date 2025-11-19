@@ -6,4 +6,6 @@ Arqan arqan10 user
 Syaula syaula10 user
 Diral diral10 user
 Safir safir10 user
+Admin admin10 admin
+User user10 user
 
