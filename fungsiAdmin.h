@@ -25,7 +25,7 @@ int loadAlat(struct AlatLab daftar[])
 
     int count = 0;
 
-    while (fscanf(file, "%u|%49[^|]|%49[^|]|%49[^|]|%u|%u|%u",
+    while (fscanf(file, "%u %s %s %s %u %u %u",
             &daftar[count].id,
             daftar[count].nama,
             daftar[count].merk,
@@ -51,7 +51,7 @@ void saveAlat(struct AlatLab daftar[], int count)
     }
 
     for (int i = 0; i < count; i++) {
-        fprintf(file, "%u|%s|%s|%s|%u|%u|%u\n",
+        fprintf(file, "%u %s %s %s %u %u %u\n",
                 daftar[i].id,
                 daftar[i].nama,
                 daftar[i].merk,
