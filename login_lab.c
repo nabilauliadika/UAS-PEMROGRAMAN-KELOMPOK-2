@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "fungsiAdmin.h"
+#include "fungsiUser.h"
 
 
 int main (int argc, char *argv[]) {
