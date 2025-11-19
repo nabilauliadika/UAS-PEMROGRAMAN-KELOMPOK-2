@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-/*====struct untuk data alat lab===*/
+/*==== Struct untuk data alat lab ===*/
 struct AlatLab {
     unsigned int id;
     char nama[50];
@@ -14,25 +14,25 @@ struct AlatLab {
     unsigned int jumlah_tersedia;
 };
 
-/*====fungsi untuk load data alat lab dari file===*/
+/*==== Fungsi untuk load data alat lab dari file ===*/
 int loadAlat(struct AlatLab daftar[]) 
 {
     FILE *file = fopen("alat.txt", "r");
     if (file == NULL) {
-        printf("Gagal membuka file alat.txt\n");
+        printf("File alat.txt tidak ditemukan. Membuat baru...\n");
         return 0;
     }
 
     int count = 0;
 
-    while (fscanf(file, "%u %s %s %s %u %u %u",
+    while (fscanf(file, "%u %49s %49s %49s %u %u %u",
             &daftar[count].id,
             daftar[count].nama,
             daftar[count].merk,
             daftar[count].model,
             &daftar[count].tahun,
             &daftar[count].jumlah_unit,
-            &daftar[count].jumlah_tersedia) != EOF)
+            &daftar[count].jumlah_tersedia) == 7)
     {
         count++;
     }
@@ -41,10 +41,10 @@ int loadAlat(struct AlatLab daftar[])
     return count;
 }
 
-/*====fungsi untuk menyimpan data alat lab ke file===*/
+/*==== Fungsi simpan data alat lab ke file ===*/
 void saveAlat(struct AlatLab daftar[], int count) 
 {
-    FILE *file = fopen("alat.txt", "w");
+    FILE *file = fopen("alat.txt", "w");    
     if (file == NULL) {
         printf("Gagal membuka file alat.txt untuk menulis\n");
         return;
@@ -64,10 +64,15 @@ void saveAlat(struct AlatLab daftar[], int count)
     fclose(file);
 }
 
-/*====fungsi untuk menampilkan daftar alat lab===*/
+/*==== Fungsi untuk menampilkan daftar alat ===*/
 void tampilkanAlat(struct AlatLab daftar[], int count)
 {
     printf("\n== DAFTAR ALAT LAB ==\n");
+    if (count == 0) {
+        printf("Belum ada data alat.\n");
+        return;
+    }
+
     for (int i = 0; i < count; i++) {
         printf("ID: %u | Nama: %s | Merk: %s | Model: %s | Tahun: %u | Unit: %u | Tersedia: %u\n",
                 daftar[i].id, daftar[i].nama, daftar[i].merk, daftar[i].model,
@@ -75,7 +80,7 @@ void tampilkanAlat(struct AlatLab daftar[], int count)
     }
 }
 
-/*====fungsi untuk menambah alat lab===*/
+/*==== Fungsi untuk menambah alat ===*/
 void tambahAlat(struct AlatLab daftar[], int *count)
 {
     struct AlatLab baru;
@@ -86,13 +91,13 @@ void tambahAlat(struct AlatLab daftar[], int *count)
     scanf("%u", &baru.id);
 
     printf("Nama Alat: ");
-    scanf("%s", baru.nama);
+    scanf("%49s", baru.nama);
 
     printf("Merk Alat: ");
-    scanf("%s", baru.merk);
+    scanf("%49s", baru.merk);
 
     printf("Model Alat: ");
-    scanf("%s", baru.model);
+    scanf("%49s", baru.model);
 
     printf("Tahun Produksi: ");
     scanf("%u", &baru.tahun);
@@ -111,7 +116,7 @@ void tambahAlat(struct AlatLab daftar[], int *count)
     printf("Alat lab berhasil ditambahkan!\n");
 }
 
-/*====fungsi untuk mengedit data alat lab===*/
+/*==== Fungsi untuk edit data alat ===*/
 void editAlat(struct AlatLab daftar[], int count) 
 {
     unsigned int id;
@@ -134,13 +139,13 @@ void editAlat(struct AlatLab daftar[], int count)
     printf("Mengedit alat: %s\n", daftar[index].nama);
 
     printf("Nama baru: ");
-    scanf("%s", daftar[index].nama);
+    scanf("%49s", daftar[index].nama);
 
     printf("Merk baru: ");
-    scanf("%s", daftar[index].merk);
+    scanf("%49s", daftar[index].merk);
 
     printf("Model baru: ");
-    scanf("%s", daftar[index].model);
+    scanf("%49s", daftar[index].model);
 
     printf("Tahun Produksi baru: ");
     scanf("%u", &daftar[index].tahun);
@@ -156,7 +161,7 @@ void editAlat(struct AlatLab daftar[], int count)
     printf("Alat lab berhasil diperbarui!\n");
 }
 
-/*====fungsi untuk menghapus data alat lab===*/
+/*==== Fungsi untuk hapus alat ===*/
 void hapusAlat(struct AlatLab daftar[], int *count)
 {
     unsigned int id;
@@ -187,7 +192,7 @@ void hapusAlat(struct AlatLab daftar[], int *count)
     printf("Alat lab berhasil dihapus!\n");
 }
 
-/*====fungsi untuk menampilkan menu admin===*/
+/*==== MENU ADMIN ===*/
 void menuAdmin() {
     struct AlatLab daftar[100];
     int count = loadAlat(daftar);
@@ -200,7 +205,7 @@ void menuAdmin() {
         printf("2. Tambah Alat Lab\n");
         printf("3. Edit Alat Lab\n");
         printf("4. Hapus Alat Lab\n");
-        printf("5. Logout\n");
+        printf("5. Logout\n\n");
         printf("Pilih opsi: ");
         scanf("%d", &pilihan);
 
