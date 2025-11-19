@@ -95,13 +95,25 @@ void tampilkanPeminjaman(const char *username)
 	struct Peminjaman list[100]; 
 	int count = loadPeminjaman(list); 
 
+	struct AlatLab daftar[100];
+	int countAlat = loadAlat(daftar);
+
 	printf("\n== DAFTAR PEMINJAMAN %s ==\n", username); 
 
 	int found = 0; 
 	for (int i = 0; i < count; i++) { 
-		if (strcmp(list[i].username, username) == 0) { 
-			printf("ID Alat: %u\n", list[i].id_alat); 
-			found = 1; 
+		if (strcmp(list[i].username, username) == 0) {
+
+			// mencari informasi alat sesuai dengan ID
+			for (int j = 0; j < countAlat; j++) {
+				if (daftar[j].id == list[i].id_alat) {
+					printf("ID Alat: %u | %s | %s\n", 
+						daftar[j].id,
+						daftar[j].nama,
+						daftar[j].merk); 
+			found = 1;
+				}
+			}
 		}
 	}
 
