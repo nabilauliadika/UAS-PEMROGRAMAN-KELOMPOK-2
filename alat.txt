@@ -1,9 +1,5 @@
-1 
-2
-3
-4
-5
-6
-7
-8
-9
+1|Mikroskop Cahaya|Olympus|CX23|2020|10|8
+2|Pipet Volume 10ml|Eppendorf|ResearchPlus|2019|5|4
+3|Termometer Digital|Omron|MC-342|2021|7|7
+4|Timbangan Analitik|Ohaus|Pioneer|2018|3|2
+5|Centrifuge Mini|Herma|SpinX|2022|4|4
