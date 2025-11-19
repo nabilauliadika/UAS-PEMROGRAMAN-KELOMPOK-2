@@ -3,4 +3,5 @@
 # Kelompok 2
 1. Arienal zacky Irfan (250810701100071)
 2. Syaula Balqiea Mulyadi (250810701100078)
-3. M. Diral (250810701100101) 
+3. M. Diral (250810701100101)
+4. Arqan Syaputra (250810701100057)
