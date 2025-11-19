@@ -52,6 +52,7 @@ while (count < MAX_ALAT) {
 
 fclose(file);
 return count;
+}
 
 /*====fungsi untuk menyimpan data alat lab ke file===*/
 void saveAlat(struct AlatLab daftar[], int count) 
