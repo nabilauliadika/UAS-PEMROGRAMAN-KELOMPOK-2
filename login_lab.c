@@ -49,8 +49,10 @@ int main(int argc, char *argv[]) {
     // Cek role
     if (strcmp(role, "admin") == 0) {
         menuAdmin();
+    } else if (strcmp(role, "user") == 0 {
+        menuUser(username);
     } else {
-        printf("Fitur untuk role selain admin belum tersedia.\n");
+        printf("Role tidak dikenal.\n");
     }
 
     return EXIT_SUCCESS;
