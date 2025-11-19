@@ -15,31 +15,43 @@ struct AlatLab {
 };
 
 /*====fungsi untuk load data alat lab dari file===*/
-int loadAlat(struct AlatLab daftar[]) 
-{
-    FILE *file = fopen("alat.txt", "r");
-    if (file == NULL) {
-        printf("Gagal membuka file alat.txt\n");
-        return 0;
+int count = 0;
+
+while (count < MAX_ALAT) {
+    unsigned int id, tahun, jumlah_unit, jumlah_tersedia;
+    char nama[50], merk[50], model[50];
+
+    int read = fscanf(file, "%u %49s %49s %49s %u %u %u",
+                      &id, nama, merk, model,
+                      &tahun, &jumlah_unit, &jumlah_tersedia);
+
+    if (read == EOF || read == 0) {
+        break;
     }
 
-    int count = 0;
-
-    while (fscanf(file, "%u %s %s %s %u %u %u",
-            &daftar[count].id,
-            daftar[count].nama,
-            daftar[count].merk,
-            daftar[count].model,
-            &daftar[count].tahun,
-            &daftar[count].jumlah_unit,
-            &daftar[count].jumlah_tersedia) != EOF)
-    {
-        count++;
+    if (read != 7) {
+        /* baris tidak sesuai format — lompat ke akhir baris dan teruskan */
+        int c;
+        while ((c = fgetc(file)) != '\n' && c != EOF) {}
+        continue;
     }
 
-    fclose(file);
-    return count;
+    daftar[count].id = id;
+    strncpy(daftar[count].nama, nama, sizeof(daftar[count].nama) - 1);
+    daftar[count].nama[sizeof(daftar[count].nama) - 1] = '\0';
+    strncpy(daftar[count].merk, merk, sizeof(daftar[count].merk) - 1);
+    daftar[count].merk[sizeof(daftar[count].merk) - 1] = '\0';
+    strncpy(daftar[count].model, model, sizeof(daftar[count].model) - 1);
+    daftar[count].model[sizeof(daftar[count].model) - 1] = '\0';
+    daftar[count].tahun = tahun;
+    daftar[count].jumlah_unit = jumlah_unit;
+    daftar[count].jumlah_tersedia = jumlah_tersedia;
+
+    count++;
 }
+
+fclose(file);
+return count;
 
 /*====fungsi untuk menyimpan data alat lab ke file===*/
 void saveAlat(struct AlatLab daftar[], int count) 
