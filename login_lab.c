@@ -35,8 +35,10 @@ int main(int argc, char *argv[])
     {
         if (strcmp(input_user, username) == 0 && strcmp(input_pass, password) == 0)
         {
-            printf("Login berhasil! SELAMAT DATANG, %s.\nRole Anda: %s\n", username, role);
+            printf("\n\n==========================================================================\n");
+            printf("\nLogin berhasil! SELAMAT DATANG, %s.\nRole Anda: %s\n", username, role);
             login_success = true;
+            printf("DEBUG ROLE: '%s'\n", role);
             break;
         }
     }
