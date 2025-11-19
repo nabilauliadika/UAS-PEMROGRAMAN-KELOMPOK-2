@@ -5,31 +5,30 @@
 #include "fungsiAdmin.h"
 #include "fungsiUser.h"
 
-
-int main (int argc, char *argv[]) {
-    FILE  *file;
-    char username[50], password[50], role[50];
-    char input_user[50], input_pass[50];
-    bool login_success = false;
-
-    // cek argumen
+int main(int argc, char *argv[]) {
+    // Validasi argumen
     if (argc != 3) {
         printf("Cara penggunaan:\n./%s <username> <password>\n", argv[0]);
         return EXIT_FAILURE;
     }
 
-    // copy input agar aman
-    strncpy(input_user, argv[1], 49);
-    strncpy(input_pass, argv[2], 49);
+    char input_user[50], input_pass[50];
+    char username[50], password[50], role[50];
+    bool login_success = false;
 
-    file = fopen("akun.txt", "r");
-    if (file == NULL) {
+    // Salin input agar aman
+    strncpy(input_user, argv[1], sizeof(input_user)-1);
+    strncpy(input_pass, argv[2], sizeof(input_pass)-1);
+
+    // Buka file akun
+    FILE *file = fopen("akun.txt", "r");
+    if (!file) {
         perror("Gagal membuka file akun.txt");
         return EXIT_FAILURE;
     }
 
-    // baca file
-    while (fscanf(file, "%49s %49s %49s", username, password, role) != EOF) {
+    // Proses login
+    while (fscanf(file, "%49s %49s %49s", username, password, role) == 3) {
         if (strcmp(input_user, username) == 0 &&
             strcmp(input_pass, password) == 0)
         {
@@ -39,15 +38,15 @@ int main (int argc, char *argv[]) {
             break;
         }
     }
+    fclose(file);
 
-    fclose(file); // tutup file
-
+    // Jika gagal login
     if (!login_success) {
         printf("Login gagal! Username atau password salah.\n");
         return EXIT_FAILURE;
     }
 
-    // cek role
+    // Cek role
     if (strcmp(role, "admin") == 0) {
         menuAdmin();
     } else {
@@ -56,7 +55,3 @@ int main (int argc, char *argv[]) {
 
     return EXIT_SUCCESS;
 }
-
-
-
-    
