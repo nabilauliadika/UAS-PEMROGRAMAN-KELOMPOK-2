@@ -7,9 +7,7 @@
 
 int main(int argc, char *argv[]) 
 {
-    // Validasi argumen
-    if (argc != 3) 
-    {
+    if (argc != 3) {
         printf("Cara penggunaan:\n./%s <username> <password>\n", argv[0]);
         return EXIT_FAILURE;
     }
@@ -18,49 +16,37 @@ int main(int argc, char *argv[])
     char username[50], password[50], role[50];
     bool login_success = false;
 
-    // Salin input agar aman
     strncpy(input_user, argv[1], sizeof(input_user)-1);
     strncpy(input_pass, argv[2], sizeof(input_pass)-1);
 
-    // Buka file akun
     FILE *file = fopen("akun.txt", "r");
-    if (!file) 
-    {
-        perror("Gagal membuka file akun.txt");
+    if (!file) {
+        perror("Gagal membuka akun.txt");
         return EXIT_FAILURE;
     }
 
-    // Proses login
-    while (fscanf(file, "%49s %49s %49s", username, password, role) == 3) 
-    {
-        if (strcmp(input_user, username) == 0 && strcmp(input_pass, password) == 0)
-        {
-            printf("\n\n==========================================================================\n");
-            printf("\nLogin berhasil! SELAMAT DATANG, %s.\nRole Anda: %s\n", username, role);
+    while (fscanf(file, "%49s %49s %49s", username, password, role) == 3) {
+        if (strcmp(input_user, username) == 0 && strcmp(input_pass, password) == 0) {
+            printf("\nLogin berhasil! Selamat datang, %s.\nRole: %s\n", username, role);
             login_success = true;
-            printf("DEBUG ROLE: '%s'\n", role);
             break;
         }
     }
     fclose(file);
 
-    // Jika gagal login
-    if (!login_success) 
-    {
+    if (!login_success) {
         printf("Login gagal! Username atau password salah.\n");
         return EXIT_FAILURE;
     }
 
-    // Cek role
-    if (strcmp(role, "admin") == 0) 
-    {
-        menuAdmin(); // Panggil menu admin
-    } else if (strcmp(role, "user") == 0) 
-    {
-        menuUser(username); // Panggil menu user
-    } else 
-    {
-        printf("Role tidak dikenal.\n"); //jika role bukan admin atau user
+    if (strcmp(role, "admin") == 0) {
+        menuAdmin();
+    } 
+    else if (strcmp(role, "user") == 0) {
+        menuUser(username);
+    } 
+    else {
+        printf("Role tidak valid.\n");
         return EXIT_FAILURE;
     }
 

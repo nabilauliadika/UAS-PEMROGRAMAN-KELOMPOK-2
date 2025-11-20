@@ -62,7 +62,7 @@ void pinjamAlat(const char *username, struct AlatLab daftar[], int *count)
 	printf("\n== PINJAM ALAT ==\n"); 
 	tampilkanAlat(daftar, *count); 
 
-	printf("Masukkan ID alat yang ingin dipinjam: "); 
+	printf("\nMasukkan ID alat yang ingin dipinjam: "); 
 	scanf("%u", &id); 
 
 	int index = -1; 
@@ -186,7 +186,7 @@ void menuUser(const char *username)
 		printf("2. Pinjam Alat\n"); 
 		printf("3. Tampilkan Alat yang Dipinjam\n"); 
 		printf("4. Kembalikan Alat\n"); 
-		printf("5. Logout\n"); 
+		printf("5. Logout\n\n"); 
 		printf("Pilih opsi: "); 
 		scanf("%d", &pilihan); 
 
@@ -200,6 +200,3 @@ void menuUser(const char *username)
 		}
 	}
 }
-
-
-

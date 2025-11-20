@@ -14,18 +14,23 @@ struct AlatLab {
     unsigned int jumlah_tersedia;
 };
 
-/*==== Fungsi untuk load data alat lab dari file ===*/
+/*==== Bersihkan buffer input ===*/
+void clearInput() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) {}
+}
+
+/*==== Load alat dari file (AMAN MESKI ADA SPASI) ===*/
 int loadAlat(struct AlatLab daftar[]) 
 {
     FILE *file = fopen("alat.txt", "r");
     if (file == NULL) {
-        printf("File alat.txt tidak ditemukan. Membuat baru...\n");
         return 0;
     }
 
     int count = 0;
 
-    while (fscanf(file, "%u %49s %49s %49s %u %u %u",
+    while (fscanf(file, "%u|%49[^|]|%49[^|]|%49[^|]|%u|%u|%u\n",
             &daftar[count].id,
             daftar[count].nama,
             daftar[count].merk,
@@ -41,33 +46,34 @@ int loadAlat(struct AlatLab daftar[])
     return count;
 }
 
-/*==== Fungsi simpan data alat lab ke file ===*/
+/*==== Save alat ke file (delimiter | supaya tidak korup) ===*/
 void saveAlat(struct AlatLab daftar[], int count) 
 {
-    FILE *file = fopen("alat.txt", "w");    
-    if (file == NULL) {
-        printf("Gagal membuka file alat.txt untuk menulis\n");
+    FILE *file = fopen("alat.txt", "w");
+    if (!file) {
+        printf("Gagal membuka file alat.txt\n");
         return;
     }
 
     for (int i = 0; i < count; i++) {
-        fprintf(file, "%u %s %s %s %u %u %u\n",
-                daftar[i].id,
-                daftar[i].nama,
-                daftar[i].merk,
-                daftar[i].model,
-                daftar[i].tahun,
-                daftar[i].jumlah_unit,
-                daftar[i].jumlah_tersedia);
+        fprintf(file, "%u|%s|%s|%s|%u|%u|%u\n",
+            daftar[i].id,
+            daftar[i].nama,
+            daftar[i].merk,
+            daftar[i].model,
+            daftar[i].tahun,
+            daftar[i].jumlah_unit,
+            daftar[i].jumlah_tersedia);
     }
 
     fclose(file);
 }
 
-/*==== Fungsi untuk menampilkan daftar alat ===*/
+/*==== Tampilkan alat ===*/
 void tampilkanAlat(struct AlatLab daftar[], int count)
 {
     printf("\n== DAFTAR ALAT LAB ==\n");
+
     if (count == 0) {
         printf("Belum ada data alat.\n");
         return;
@@ -75,53 +81,66 @@ void tampilkanAlat(struct AlatLab daftar[], int count)
 
     for (int i = 0; i < count; i++) {
         printf("ID: %u | Nama: %s | Merk: %s | Model: %s | Tahun: %u | Unit: %u | Tersedia: %u\n",
-                daftar[i].id, daftar[i].nama, daftar[i].merk, daftar[i].model,
-                daftar[i].tahun, daftar[i].jumlah_unit, daftar[i].jumlah_tersedia);
+            daftar[i].id,
+            daftar[i].nama,
+            daftar[i].merk,
+            daftar[i].model,
+            daftar[i].tahun,
+            daftar[i].jumlah_unit,
+            daftar[i].jumlah_tersedia);
     }
 }
 
-/*==== Fungsi untuk menambah alat ===*/
+/*==== Tambah alat ===*/
 void tambahAlat(struct AlatLab daftar[], int *count)
 {
     struct AlatLab baru;
 
-    printf("\n== Tambah Alat Lab ==\n");
+    printf("\n== Tambah Alat ==\n");
 
     printf("ID Alat: ");
     scanf("%u", &baru.id);
+    clearInput();
 
     printf("Nama Alat: ");
-    scanf("%49s", baru.nama);
+    fgets(baru.nama, 50, stdin);
+    baru.nama[strcspn(baru.nama, "\n")] = '\0';
 
     printf("Merk Alat: ");
-    scanf("%49s", baru.merk);
+    fgets(baru.merk, 50, stdin);
+    baru.merk[strcspn(baru.merk, "\n")] = '\0';
 
     printf("Model Alat: ");
-    scanf("%49s", baru.model);
+    fgets(baru.model, 50, stdin);
+    baru.model[strcspn(baru.model, "\n")] = '\0';
 
     printf("Tahun Produksi: ");
     scanf("%u", &baru.tahun);
+    clearInput();
 
     printf("Jumlah Unit: ");
     scanf("%u", &baru.jumlah_unit);
+    clearInput();
 
     printf("Jumlah Tersedia: ");
     scanf("%u", &baru.jumlah_tersedia);
+    clearInput();
 
     daftar[*count] = baru;
     (*count)++;
 
     saveAlat(daftar, *count);
 
-    printf("Alat lab berhasil ditambahkan!\n");
+    printf("Alat berhasil ditambahkan!\n");
 }
 
-/*==== Fungsi untuk edit data alat ===*/
-void editAlat(struct AlatLab daftar[], int count) 
+/*==== Edit alat ===*/
+void editAlat(struct AlatLab daftar[], int count)
 {
     unsigned int id;
-    printf("\nMasukkan ID Alat yang akan diedit: ");
+    printf("Masukkan ID alat yang akan diedit: ");
     scanf("%u", &id);
+    clearInput();
 
     int index = -1;
     for (int i = 0; i < count; i++) {
@@ -132,41 +151,46 @@ void editAlat(struct AlatLab daftar[], int count)
     }
 
     if (index == -1) {
-        printf("Alat dengan ID %u tidak ditemukan.\n", id);
+        printf("Alat tidak ditemukan.\n");
         return;
     }
 
-    printf("Mengedit alat: %s\n", daftar[index].nama);
-
     printf("Nama baru: ");
-    scanf("%49s", daftar[index].nama);
+    fgets(daftar[index].nama, 50, stdin);
+    daftar[index].nama[strcspn(daftar[index].nama, "\n")] = '\0';
 
     printf("Merk baru: ");
-    scanf("%49s", daftar[index].merk);
+    fgets(daftar[index].merk, 50, stdin);
+    daftar[index].merk[strcspn(daftar[index].merk, "\n")] = '\0';
 
     printf("Model baru: ");
-    scanf("%49s", daftar[index].model);
+    fgets(daftar[index].model, 50, stdin);
+    daftar[index].model[strcspn(daftar[index].model, "\n")] = '\0';
 
     printf("Tahun Produksi baru: ");
     scanf("%u", &daftar[index].tahun);
+    clearInput();
 
     printf("Jumlah Unit baru: ");
     scanf("%u", &daftar[index].jumlah_unit);
+    clearInput();
 
     printf("Jumlah Tersedia baru: ");
     scanf("%u", &daftar[index].jumlah_tersedia);
+    clearInput();
 
     saveAlat(daftar, count);
 
-    printf("Alat lab berhasil diperbarui!\n");
+    printf("Alat berhasil diperbarui!\n");
 }
 
-/*==== Fungsi untuk hapus alat ===*/
+/*==== Hapus alat ===*/
 void hapusAlat(struct AlatLab daftar[], int *count)
 {
     unsigned int id;
-    printf("\nMasukkan ID Alat yang akan dihapus: ");
+    printf("Masukkan ID alat yang akan dihapus: ");
     scanf("%u", &id);
+    clearInput();
 
     int index = -1;
     for (int i = 0; i < *count; i++) {
@@ -177,7 +201,7 @@ void hapusAlat(struct AlatLab daftar[], int *count)
     }
 
     if (index == -1) {
-        printf("Alat dengan ID %u tidak ditemukan.\n", id);
+        printf("Alat tidak ditemukan.\n");
         return;
     }
 
@@ -189,11 +213,12 @@ void hapusAlat(struct AlatLab daftar[], int *count)
 
     saveAlat(daftar, *count);
 
-    printf("Alat lab berhasil dihapus!\n");
+    printf("Alat berhasil dihapus!\n");
 }
 
-/*==== MENU ADMIN ===*/
-void menuAdmin() {
+/*==== Menu admin ===*/
+void menuAdmin() 
+{
     struct AlatLab daftar[100];
     int count = loadAlat(daftar);
 
@@ -201,21 +226,22 @@ void menuAdmin() {
 
     while (true) {
         printf("\n== MENU ADMIN ==\n");
-        printf("1. Tampilkan Alat Lab\n");
-        printf("2. Tambah Alat Lab\n");
-        printf("3. Edit Alat Lab\n");
-        printf("4. Hapus Alat Lab\n");
+        printf("1. Tampilkan Alat\n");
+        printf("2. Tambah Alat\n");
+        printf("3. Edit Alat\n");
+        printf("4. Hapus Alat\n");
         printf("5. Logout\n\n");
-        printf("Pilih opsi: ");
+        printf("Pilih: ");
         scanf("%d", &pilihan);
+        clearInput();
 
         switch (pilihan) {
             case 1: tampilkanAlat(daftar, count); break;
             case 2: tambahAlat(daftar, &count); break;
             case 3: editAlat(daftar, count); break;
             case 4: hapusAlat(daftar, &count); break;
-            case 5: printf("Logout berhasil.\n"); return;
-            default: printf("Opsi tidak valid. Silakan coba lagi.\n");
+            case 5: return;
+            default: printf("Pilihan tidak valid.\n");
         }
     }
 }
