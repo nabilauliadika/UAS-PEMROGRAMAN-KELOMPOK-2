@@ -1,3 +1,10 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include "fungsiAdmin.h"
+#include "fungsiUser.h"
+
 bool username_exists(const char *username) {
     FILE *file = fopen("akun.txt", "r");
     if (!file) return false;  
@@ -13,7 +20,7 @@ bool username_exists(const char *username) {
     return false;
 }
 
-void register_user(contsa char *usn, contsa char *password)
+void register_user(conts char *username, conts char *password)
     if (username_exists(username)) {
         printf("Gagal: username '%s' sudah terdaftar. Tidak boleh daftar dua kali.\n", username);
         exit(EXIT_FAILURE==NULL);
