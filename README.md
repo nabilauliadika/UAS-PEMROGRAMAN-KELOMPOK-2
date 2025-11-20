@@ -6,3 +6,4 @@
 3. M. Diral (250810701100101)
 4. Arqan Syaputra (250810701100057)
 5. Nabil Aulia Dika (250810701100090)
+6. Raymond Vennmart (250810701100066)
