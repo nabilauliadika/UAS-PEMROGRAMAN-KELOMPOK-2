@@ -20,7 +20,7 @@ void clearInput() {
     while ((c = getchar()) != '\n' && c != EOF) {}
 }
 
-/*==== Load alat dari file (AMAN MESKI ADA SPASI) ===*/
+/*==== Load alat dari file ===*/
 int loadAlat(struct AlatLab daftar[]) 
 {
     FILE *file = fopen("alat.txt", "r");
@@ -46,7 +46,7 @@ int loadAlat(struct AlatLab daftar[])
     return count;
 }
 
-/*==== Save alat ke file (delimiter | supaya tidak korup) ===*/
+/*==== Save alat ke file  ===*/
 void saveAlat(struct AlatLab daftar[], int count) 
 {
     FILE *file = fopen("alat.txt", "w");
@@ -245,3 +245,4 @@ void menuAdmin()
         }
     }
 }
+
