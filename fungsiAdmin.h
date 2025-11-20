@@ -80,7 +80,7 @@ void tampilkanAlat(struct AlatLab daftar[], int count)
     }
 
     for (int i = 0; i < count; i++) {
-        printf("ID: %u | Nama: %s | Merk: %s | Model: %s | Tahun: %u | Unit: %u | Tersedia: %u\n",
+         printf(" ID      : %u \n Nama    : %s \n Merk    : %s \n Model   : %s \n Tahun   : %u \n Unit    : %u \n Tersedia: %u\n",
             daftar[i].id,
             daftar[i].nama,
             daftar[i].merk,
@@ -88,6 +88,7 @@ void tampilkanAlat(struct AlatLab daftar[], int count)
             daftar[i].tahun,
             daftar[i].jumlah_unit,
             daftar[i].jumlah_tersedia);
+    print("\n");
     }
 }
 
