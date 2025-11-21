@@ -1,3 +1,4 @@
+//nabil & raymond menjelaskan, kita menyimak.
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
