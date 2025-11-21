@@ -88,7 +88,7 @@ void tampilkanAlat(struct AlatLab daftar[], int count)
             daftar[i].tahun,
             daftar[i].jumlah_unit,
             daftar[i].jumlah_tersedia);
-    print("\n");
+    printf("\n");
     }
 }
 
