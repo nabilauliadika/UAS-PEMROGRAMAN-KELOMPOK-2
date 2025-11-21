@@ -20,7 +20,7 @@ void clearInput() {
     while ((c = getchar()) != '\n' && c != EOF) {}
 }
 
-/*==== Load alat dari file ===*/
+/*==== Load alat dari file ===*/ //nabil
 int loadAlat(struct AlatLab daftar[]) 
 {
     FILE *file = fopen("alat.txt", "r");
@@ -46,7 +46,7 @@ int loadAlat(struct AlatLab daftar[])
     return count;
 }
 
-/*==== Save alat ke file  ===*/
+/*==== Save alat ke file  ===*/ //syaula
 void saveAlat(struct AlatLab daftar[], int count) 
 {
     FILE *file = fopen("alat.txt", "w");
@@ -69,7 +69,7 @@ void saveAlat(struct AlatLab daftar[], int count)
     fclose(file);
 }
 
-/*==== Tampilkan alat ===*/
+/*==== Tampilkan alat ===*/ //raymond
 void tampilkanAlat(struct AlatLab daftar[], int count)
 {
     printf("\n== DAFTAR ALAT LAB ==\n");
@@ -92,7 +92,7 @@ void tampilkanAlat(struct AlatLab daftar[], int count)
     }
 }
 
-/*==== Tambah alat ===*/
+/*==== Tambah alat ===*/ //safir
 void tambahAlat(struct AlatLab daftar[], int *count)
 {
     struct AlatLab baru;
@@ -135,7 +135,7 @@ void tambahAlat(struct AlatLab daftar[], int *count)
     printf("Alat berhasil ditambahkan!\n");
 }
 
-/*==== Edit alat ===*/
+/*==== Edit alat ===*/ //Diral
 void editAlat(struct AlatLab daftar[], int count)
 {
     unsigned int id;
@@ -185,7 +185,7 @@ void editAlat(struct AlatLab daftar[], int count)
     printf("Alat berhasil diperbarui!\n");
 }
 
-/*==== Hapus alat ===*/
+/*==== Hapus alat ===*/ //kania
 void hapusAlat(struct AlatLab daftar[], int *count)
 {
     unsigned int id;
@@ -217,7 +217,7 @@ void hapusAlat(struct AlatLab daftar[], int *count)
     printf("Alat berhasil dihapus!\n");
 }
 
-/*==== Menu admin ===*/
+/*==== Menu admin ===*/ //arqan
 void menuAdmin() 
 {
     struct AlatLab daftar[100];
