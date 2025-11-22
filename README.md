@@ -8,3 +8,4 @@
 5. Nabil Aulia Dika (250810701100090)
 6. Raymond Vennmart (250810701100066)
 7. Safir Al-falah (250810701100108)
+8. kania ghaitsa aqira (25081070110035
